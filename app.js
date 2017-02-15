@@ -483,6 +483,8 @@ app.get('/me', function (req, res) {
 var folder = require("./lib/folder.js");
 // edit folderId of note
 app.get("/:noteId/move/:folderId", folder.moveNote);
+// list notes by folderId
+app.get("/folders/notes/:folderId", folder.listNotes);
 
 //upload image
 app.post('/uploadimage', function (req, res) {
