@@ -483,8 +483,10 @@ app.get('/me', function (req, res) {
 var folder = require("./lib/folder.js");
 // edit folderId of note
 app.get("/:noteId/move/:folderId", folder.moveNote);
+// create note in the specific folder
+app.get("/folders/:folderId/new/note", folder.newNote);
 // list notes by folderId
-app.get("/folders/notes/:folderId", folder.listNotes);
+app.get("/folders/:folderId/notes", folder.listNotes);
 // search folders and notes by keyword
 app.get("/search/:keyword", folder.searchKeyword);
 // rename folder
