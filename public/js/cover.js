@@ -74,7 +74,8 @@ function pageInit() {
             else $('.ui-avatar').prop('src', '').hide();
             $('.ui-name').html(data.name);
             $('.ui-signout').show();
-            $(".ui-history").click();
+            $('.ui-history').click();
+            $('.ui-folder').show();
             parseServerToHistory(historyList, parseHistoryCallback);
         },
         () => {
@@ -84,6 +85,7 @@ function pageInit() {
             $('.ui-avatar').prop('src', '').hide();
             $('.ui-name').html('');
             $('.ui-signout').hide();
+            $('.ui-folder').hide();
             parseStorageToHistory(historyList, parseHistoryCallback);
         }
     );
@@ -111,6 +113,13 @@ $(".ui-history").click(() => {
         $(".section:visible").hide();
         $("#history").fadeIn();
     }
+});
+
+$(".ui-folder").click(() => {
+   if(!$("#folder").is(':visible')) {
+     $(".section:visible").hide();
+     $("#folder").fadeIn();
+   }
 });
 
 function checkHistoryList() {
