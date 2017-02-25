@@ -25,6 +25,15 @@ import {
     saveStorageHistoryToServer
 } from './history';
 
+import {
+    newNote,
+    getNotes,
+    searchKeyword,
+    renameFolder,
+    getFolders,
+    moveNote
+} from './folder';
+
 import { saveAs } from 'file-saver';
 import List from 'list.js';
 import S from 'string';
