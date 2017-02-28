@@ -493,6 +493,8 @@ app.get("/search/:keyword", folder.searchKeyword);
 app.get("/folders/:folderId/rename/:folderName", folder.rename);
 // list folders by userId
 app.get("/folders", folder.listAllFolders);
+// delete folder
+app.get("/folders/:folderId/delete", folder.deleteFolder);
 
 //upload image
 app.post('/uploadimage', function (req, res) {
