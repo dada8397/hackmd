@@ -85,6 +85,8 @@ function pageInit() {
             $('.ui-signout').show();
             $('.ui-history').click();
             $('.ui-folder').show();
+            getFolders(getFoldersCallback);
+            getNotes("Aw0i0aa0W+iA", getNotesCallback);
             parseServerToHistory(historyList, parseHistoryCallback);
         },
         () => {
@@ -185,6 +187,34 @@ function parseHistoryCallback(list, notehistory) {
         }
     }
     buildTagsFilter(filtertags);
+}
+
+function getFoldersCallback (folders) {
+    $('#folder-tree').treeview({
+        color: "#000000",
+        backColor: "#FFFFFF",
+        expandIcon: 'glyphicon glyphicon-folder-close',
+        collapseIcon: 'glyphicon glyphicon-folder-open',
+        data: [{
+            text: "Root",
+            nodes: folders
+        }],
+        onNodeSelected: function (event, data) {
+            if (data.id) {
+                getNotes(data.id, getNotesCallback);
+            } else {
+                getNotes("Aw0i0aa0W+iA", getNotesCallback);
+            }
+        }
+    });
+}
+
+function getNotesCallback (notes) {
+    if (notes.length > 0) {
+        
+    } else {
+
+    }
 }
 
 // update items whenever list updated

@@ -360,6 +360,25 @@ input {
     border-radius: 3px;
 }
 
+#folder-container {
+    margin-top: 50px;
+    height: 60vh;
+    text-align: left;
+}
+
+#folder-container div {
+    height: 100%;
+}
+
+#folder-container div div {
+    height: 100%;
+}
+
+#folder-container div div ul {
+    height: 100%;
+    overflow: auto;
+}
+
 select {
     color: black;
 }
