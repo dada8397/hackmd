@@ -101,5 +101,11 @@
 	"OR": "或是",
 	"Export to Snippet": "匯出到 Snippet",
 	"Select Visibility Level": "選擇可見層級",
-	"Folder": "資料夾"
+	"Folder": "資料夾",
+	"Root": "根目錄",
+	"Edit?": "移動 或 刪除?",
+	"Move": "移動",
+	"Delete": "刪除",
+	"Choose folder": "選擇資料夾",
+	"Confirm": "確定"
 }

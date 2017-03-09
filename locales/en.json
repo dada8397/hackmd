@@ -101,5 +101,11 @@
 	"OR": "OR",
 	"Export to Snippet": "Export to Snippet",
 	"Select Visibility Level": "Select Visibility Level",
-	"Folder": "Folder"
+	"Folder": "Folder",
+	"Root": "Root",
+	"Edit?": "Move or delete?",
+	"Move": "Move",
+	"Delete": "Delete",
+	"Choose folder": "Choose the folder",
+	"Confirm": "Submit"
 }

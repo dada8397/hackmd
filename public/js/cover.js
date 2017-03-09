@@ -86,10 +86,11 @@ function pageInit() {
             else $('.ui-avatar').prop('src', '').hide();
             $('.ui-name').html(data.name);
             $('.ui-signout').show();
-            $('.ui-history').click();
             $('.ui-folder').show();
+            $('.ui-folder').click();
             getFolders(getFoldersCallback);
             getNotes("Aw0i0aa0W+iA", getNotesCallback);
+            $('#folder-title').html(root_folder_name);
             parseServerToHistory(historyList, parseHistoryCallback);
         },
         () => {
@@ -192,32 +193,114 @@ function parseHistoryCallback(list, notehistory) {
     buildTagsFilter(filtertags);
 }
 
-function getFoldersCallback (folders) {
+function getFoldersCallback(folders) {
     $('#folder-tree').treeview({
         color: "#000000",
         backColor: "#FFFFFF",
-        expandIcon: 'glyphicon glyphicon-folder-close',
-        collapseIcon: 'glyphicon glyphicon-folder-open',
+        expandIcon: 'fa fa-folder',
+        collapseIcon: 'fa fa-folder-open',
         data: [{
-            text: "Root",
+            text: root_folder_name,
             nodes: folders
         }],
         onNodeSelected: function (event, data) {
             if (data.id) {
                 getNotes(data.id, getNotesCallback);
+                $('#folder-title').html(data.text);
             } else {
                 getNotes("Aw0i0aa0W+iA", getNotesCallback);
+                $('#folder-title').html(data.text);
             }
         }
     });
 }
 
-function getNotesCallback (notes) {
+function getNotesCallback(notes) {
     if (notes.length > 0) {
-        
+        notes.sort(function (a, b) {
+            if (a.text > b.text) return 1;
+            if (a.text < b.text) return -1;
+            return 0;
+        });
+        $('#notes').html('');
+        notes.forEach(function (note) {
+            var tags = '';
+            note.tag.forEach(function (tag) {
+                tags += '<span class="note label label-default">' + tag + '</span>'
+            });
+            $('#notes').append('<li class="list-group-item node-folder-tree" note-id="' + note.id + '" timestamp="' + note.time + '">' +
+                    '<span class="note detail">' +
+                        '<span class="note icon"><i class="fa fa-file-text"></i></span>' +
+                        '<span class="note title" style="font-size: 1.5em;">' + note.text + '</span>' +
+                        '<span class="note tags">' +
+                            tags +
+                        '</span>' +
+                        '<br>' +
+                        '<i><i class="fa fa-clock-o"></i> visited </i>' +
+                        '<i class="note fromNow">' + moment(note.time).fromNow() + '</i>' +
+                        '<i>, </i>' +
+                        '<i class="note lastTime">' + moment(note.time).format('ddd, MMM DD, YYYY h:mm a') + '</i>' +
+                    '</span>' +
+                    '<span class="note tool">' +
+                        '<button class="btn btn-warning" style="display: none;" data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil-square-o"></i></button>' +
+                        '<button class="btn btn-success" style="display: none;" data-toggle="modal" data-target="#moveModal"><i class="fa fa-exchange"></i></button>' +                                    
+                        '<button class="btn btn-danger" style="display: none;" data-toggle="modal" data-target="#deleteNoteModal"><i class="fa fa-times"></i></button>' +
+                    '</span>' +
+                '</li>');
+        });
+        $('#notes').find('li .detail').on('click', function () {
+            location.href = `${serverurl}/` + $(this).parent().attr('note-id');
+        });
+        $('#notes').find('li .note.tool .btn-success').on('click', function () {
+            console.log($(this).parent().parent().attr('note-id'));
+        });
+        $('#notes').find('li .note.tool .btn-danger').on('click', function () {
+            console.log($(this).parent().parent().attr('note-id'));
+        });
+        if (window.matchMedia('(max-width: 768px)').matches) {
+            $('#notes').find('li .note.tool').show();
+            $('#notes').find('li .note.tool .btn-warning').show();
+        } else {
+            $('#notes').find('li').hover(function () {
+                $(this).find('.note.tool').show();
+                $(this).find('.note.tool .btn-success').show();
+                $(this).find('.note.tool .btn-danger').show();
+            }, function () {
+                $(this).find('.note.tool').hide();
+                $(this).find('.note.tool .btn-success').hide();
+                $(this).find('.note.tool .btn-danger').hide();
+            });
+        }
     } else {
-
+        $('#notes').html("<h2>This folder is empty.</h2>");
     }
+}
+
+$('#folderModal').on('show.bs.modal', function (event) {
+    getFolders(modalGetFoldersCallback);
+});
+
+function modalGetFoldersCallback (folders) {
+    $('#modal-folder-tree').treeview({
+        color: "#000000",
+        backColor: "#FFFFFF",
+        expandIcon: 'fa fa-folder',
+        collapseIcon: 'fa fa-folder-open',
+        data: [{
+            text: root_folder_name,
+            nodes: folders
+        }],
+        onNodeSelected: function (event, data) {
+            if (data.id) {
+                getNotes(data.id, getNotesCallback);
+                $('#folder-title').html(data.text);
+            } else {
+                getNotes("Aw0i0aa0W+iA", getNotesCallback);
+                $('#folder-title').html(data.text);
+            }
+            $('#folderModal').modal('hide');
+        }
+    });
 }
 
 // update items whenever list updated

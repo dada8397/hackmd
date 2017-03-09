@@ -360,23 +360,84 @@ input {
     border-radius: 3px;
 }
 
-#folder-container {
-    margin-top: 50px;
+.note.tags {
+    margin-left: 1em;
+}
+
+.note.label {
+    margin-left: 0.5em;
+}
+
+.note.tool {
+    position: absolute;
+    float: right;
+    top: 0;
+    right: 0;
+    margin: 2%;
+    display: none;
+}
+
+.note.detail {
+    display: block;
+}
+
+.note.tool button {
+    margin-right: 0.5em;
+}
+
+#modal-folder-tree {
     height: 60vh;
+    overflow: auto;
     text-align: left;
 }
 
-#folder-container div {
-    height: 100%;
+@media (min-width: 768px) {
+    #folder-container {
+        text-align: left;
+    }
+
+    #folder-tree, #notes {
+        height: 80vh;
+        overflow: auto;
+    }
+
+    #folder-search {
+        width: 30%;
+        margin: auto;
+        margin-bottom: 25px;
+    }
+
+    #folder-button {
+        display: none;
+    }
 }
 
-#folder-container div div {
-    height: 100%;
-}
+@media (max-width: 768px) {
+    #folder-search {
+        width: 80%;
+        margin: auto;
+    }
 
-#folder-container div div ul {
-    height: 100%;
-    overflow: auto;
+    #folder-title {
+        text-align: center;
+    }
+
+    #folder-container {
+        text-align: left;
+    }
+
+    #folder-tree {
+        display: none;
+    }
+
+    #notes {
+        height: 60vh;
+        overflow: auto;
+    }
+
+    #folder-button {
+        position: absolute;
+    }
 }
 
 select {

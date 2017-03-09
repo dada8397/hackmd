@@ -123,25 +123,28 @@
             </div>
 
             <div id="folder" class="section" style="display:none;">
-                <form class="form-inline">
-                    <div class="form-group" style="vertical-align: bottom;">
-                        <input class="form-control ui-use-tags" placeholder="<%= __('Select tags...') %>" />
-                    </div>
-                    <div class="form-group">
-                        <input class="search form-control" placeholder="<%= __('Search keyword...') %>" />
-                    </div>
-                </form>
                 <div id="folder-container" class="row">
+                    <input id="folder-search" class="search form-control" placeholder="<%= __('Search keyword...') %>" />
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"></div>
+                    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+                        <h1 id="folder-button" data-toggle="modal" data-target="#folderModal"><i class="fa fa-folder-open" aria-hidden="true"></i></h1>
+                        <h1 id="folder-title"></h1>
+                    </div>
                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                         <div id="folder-tree" class="treeview">
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
-                        <div id="note-tree" class="treeview">
+                        <div class="treeview">
+                            <ul id="notes" class="list-group">
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
+            <script>
+                var root_folder_name = "<%= __('Root') %>";
+            </script>
 
             <div class="mastfoot">
                 <div class="inner">
@@ -192,6 +195,82 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><%= __('Cancel') %></button>
                 <button type="button" class="btn btn-danger ui-delete-modal-confirm"><%= __('Yes, do it!') %></button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- edit modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel"><%= __('Edit?') %></h4>
+            </div>
+            <div class="modal-body">
+                <button type="button" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#moveModal"><%= __('Move') %></button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#deleteNoteModal"><%= __('Delete') %></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><%= __('Cancel') %></button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- move modal -->
+<div class="modal fade" id="moveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel"><%= __('Choose folder') %></h4>
+            </div>
+            <div class="modal-body">
+                <div id="move-folder-tree" class="treeview">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success"><%= __('Confirm') %></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><%= __('Cancel') %></button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- delete note modal -->
+<div class="modal fade" id="deleteNoteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel"><%= __('Are you sure?') %></h4>
+            </div>
+            <div class="modal-body" style="color:black;">
+                <h5 class="ui-delete-modal-msg"></h5>
+                <strong class="ui-delete-modal-item"></strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><%= __('Cancel') %></button>
+                <button type="button" class="btn btn-danger ui-delete-modal-confirm"><%= __('Yes, do it!') %></button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- folder modal -->
+<div class="modal fade" id="folderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel"><%= __('Choose folder') %></h4>
+            </div>
+            <div class="modal-body" style="color:black;">
+                <div id="modal-folder-tree" class="treeview">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><%= __('Cancel') %></button>
             </div>
         </div>
     </div>
