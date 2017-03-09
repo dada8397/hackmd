@@ -497,6 +497,8 @@ app.get("/folders", folder.listAllFolders);
 app.get("/folders/:folderId/delete", folder.deleteFolder);
 // create new folder
 app.get("/folders/:parentId/new/:folderName", folder.newFolder);
+// move folder
+app.get("/folders/:folderId/move/:newParentId", folder.moveFolder);
 
 //upload image
 app.post('/uploadimage', function (req, res) {
