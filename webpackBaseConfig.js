@@ -159,12 +159,15 @@ module.exports = {
         ],
         cover: [
             "babel-polyfill",
-            path.join(__dirname, 'public/js/cover.js')
+            path.join(__dirname, 'public/js/cover.js'),
+            path.join(__dirname, 'public/js/bootstrap-treeview.js'),
+            path.join(__dirname, 'public/css/bootstrap-treeview.css')
         ],
         "cover-styles-pack": [
             path.join(__dirname, 'node_modules/bootstrap/dist/css/bootstrap.min.css'),
             path.join(__dirname, 'node_modules/font-awesome/css/font-awesome.min.css'),
             path.join(__dirname, 'public/css/bootstrap-social.css'),
+            path.join(__dirname, 'public/css/bootstrap-treeview.css'),
             path.join(__dirname, 'node_modules/select2/select2.css'),
             path.join(__dirname, 'node_modules/select2/select2-bootstrap.css'),
         ],
@@ -175,7 +178,8 @@ module.exports = {
             "expose?select2!select2",
             "expose?moment!moment",
             "script!js-url",
-            path.join(__dirname, 'public/js/cover.js')
+            path.join(__dirname, 'public/js/cover.js'),
+            path.join(__dirname, 'public/js/bootstrap-treeview.js')
         ],
         index: [
             "babel-polyfill",
