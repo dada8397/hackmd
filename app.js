@@ -495,6 +495,8 @@ app.get("/folders/:folderId/rename/:folderName", folder.rename);
 app.get("/folders", folder.listAllFolders);
 // delete folder
 app.get("/folders/:folderId/delete", folder.deleteFolder);
+// create new folder
+app.get("/folders/:parentId/new/:folderName", folder.newFolder);
 
 //upload image
 app.post('/uploadimage', function (req, res) {
