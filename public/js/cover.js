@@ -312,8 +312,12 @@ function modalGetFoldersCallback (folders) {
 $('#moveModal').on('show.bs.modal', function (event) {
     var note_id = $(event.relatedTarget).attr('data-note-id');
     $(this).find('.btn-success').attr('data-note-id', note_id);
-    getFolders(modalMoveFoldersCallback);
-    function modalMoveFoldersCallback (folders) {
+    getFolders(function (folders) {
+        folders.sort(function (a, b) {
+            if (a.text > b.text) return 1;
+            if (a.text < b.text) return -1;
+            return 0;
+        });
         $('#move-folder-tree').treeview({
             color: "#000000",
             backColor: "#FFFFFF",
@@ -332,7 +336,7 @@ $('#moveModal').on('show.bs.modal', function (event) {
                 }
             }
         });
-    };
+    });
 });
 
 $('#moveModal').find('.btn-success').on('click', function () {
@@ -374,6 +378,49 @@ $('#renameFolderModal').find('.btn-success').on('click', function () {
         $('#renameFolderModal').modal('hide');
         $('#folder-title').html(new_name + ' <i class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="modal" data-target="#renameFolderModal"></i>');
         getNotes(curr_folder, getNotesCallback);
+    });
+});
+
+$('#newFolderModal').on('show.bs.modal', function () {
+    getFolders(function (folders) {
+        folders.sort(function (a, b) {
+            if (a.text > b.text) return 1;
+            if (a.text < b.text) return -1;
+            return 0;
+        });
+        $('#modal-new-folder-tree').treeview({
+            color: "#000000",
+            backColor: "#FFFFFF",
+            nodeIcon: "fa fa-folder",
+            expandIcon: 'fa fa-chevron-right',
+            collapseIcon: 'fa fa-chevron-down',
+            data: [{
+                text: root_folder_name,
+                nodes: folders
+            }],
+            onNodeSelected: function (event, data) {
+                if (data.id) {
+                    $('#newFolderModal').find('.btn-success').attr('data-folder-id', data.id);
+                } else {
+                    $('#newFolderModal').find('.btn-success').attr('data-folder-id', "Aw0i0aa0W+iA");
+                }
+            }
+        });
+    });
+});
+
+$('#newFolderModal').find('.btn-success').on('click', function () {
+    var folder_id = $(this).attr('data-folder-id');
+    var new_name = $('#new-folder-folder-name').val();
+    $('#new-folder-name').val('');
+    newFolder(folder_id, new_name, function (data) {
+        if (!data) {
+            console.log("Success!");
+        } else {
+            console.log("Failed");
+        }
+        getFolders(getFoldersCallback);
+        $('#newFolderModal').modal('hide');
     });
 });
 

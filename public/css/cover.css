@@ -397,8 +397,12 @@ input {
     right: 1.5em;
 }
 
-#folder-tool .btn-danger {
+#folder-tool .btn-danger, #folder-tool .btn-success {
     display: none;
+}
+
+.treeview {
+    text-align: left;
 }
 
 @media (min-width: 768px) {
