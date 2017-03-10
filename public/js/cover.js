@@ -31,7 +31,10 @@ import {
     searchKeyword,
     renameFolder,
     getFolders,
-    moveNote
+    moveNote,
+    deleteFolder,
+    newFolder,
+    moveFolder
 } from './folder';
 
 import { saveAs } from 'file-saver';

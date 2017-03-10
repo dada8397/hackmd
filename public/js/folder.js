@@ -137,3 +137,66 @@ function moveNoteInServer(noteId, folderId, callback) {
             console.error(xhr.responseText);
         });
 }
+
+export function deleteFolder(folderId, callback) {
+    checkIfAuth(
+        () => {
+            deleteFolderInServer(folderId, callback);
+        },
+        () => {
+            // This feature is only available for authenticated user.
+        }
+    );
+}
+
+function deleteFolderInServer(folderId, callback) {
+    $.get(`${serverurl}/folders/${folderId}/delete`)
+        .done((data) => {
+            callback(data);
+        })
+        .fail((xhr, status, error) => {
+            console.error(xhr.responseText);
+        });
+}
+
+export function newFolder(folderId, newName, callback) {
+    checkIfAuth(
+        () => {
+            newFolderInServer(folderId, newName, callback);
+        },
+        () => {
+            // This feature is only available for authenticated user.
+        }
+    );
+}
+
+function newFolderInServer(folderId, newName, callback) {
+    $.get(`${serverurl}/folders/${folderId}/new/${newName}`)
+        .done((data) => {
+            callback(data);
+        })
+        .fail((xhr, status, error) => {
+            console.error(xhr.responseText);
+        });
+}
+
+export function moveFolder(folderId, parentId, callback) {
+    checkIfAuth(
+        () => {
+            moveFolderInServer(folderId, parentId, callback);
+        },
+        () => {
+            // This feature is only available for authenticated user.
+        }
+    );
+}
+
+function moveFolderInServer(folderId, parentId, callback) {
+    $.get(`${serverurl}/folders/${folderId}/move/${parentId}`)
+        .done((data) => {
+            callback(data);
+        })
+        .fail((xhr, status, error) => {
+            console.error(xhr.responseText);
+        });
+}
