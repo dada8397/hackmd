@@ -129,6 +129,7 @@ $(".ui-history").click(() => {
     if (!$("#history").is(':visible')) {
         $(".section:visible").hide();
         $("#history").fadeIn();
+        $(".ui-signout").find('a').show();
     }
 });
 
@@ -136,6 +137,7 @@ $(".ui-folder").click(() => {
    if(!$("#folder").is(':visible')) {
      $(".section:visible").hide();
      $("#folder").fadeIn();
+     $(".ui-signout").find('a').hide();
    }
 });
 
@@ -211,10 +213,12 @@ function getFoldersCallback(folders) {
                 curr_folder = data.id;
                 getNotes(data.id, getNotesCallback);
                 $('#folder-title').html(data.text);
+                $('#folder-tool').find('.btn-danger').show();
             } else {
                 curr_folder = "Aw0i0aa0W+iA";
                 getNotes("Aw0i0aa0W+iA", getNotesCallback);
                 $('#folder-title').html(data.text);
+                $('#folder-tool').find('.btn-danger').hide();
             }
         }
     });
@@ -278,9 +282,11 @@ function modalGetFoldersCallback (folders) {
                 curr_folder = data.id;
                 getNotes(data.id, getNotesCallback);
                 $('#folder-title').html(data.text);
+                $('#folder-tool').find('.btn-danger').show();
             } else {
                 getNotes("Aw0i0aa0W+iA", getNotesCallback);
                 $('#folder-title').html(data.text);
+                $('#folder-tool').find('.btn-danger').hide();
             }
             $('#folderModal').modal('hide');
         }
@@ -312,7 +318,7 @@ $('#moveModal').on('show.bs.modal', function (event) {
     };
 });
 
-$('#moveModal').find('.btn-success').on('click', function () {
+$('#moveModal').find('.btn-success').one('click', function () {
     var note_id = $(this).attr('data-note-id');
     var folder_id = $(this).attr('data-folder-id');
     moveNote(note_id, folder_id, function (data) {
@@ -323,6 +329,12 @@ $('#moveModal').find('.btn-success').on('click', function () {
         }
         $('#moveModal').modal('hide');
         getNotes(curr_folder, getNotesCallback);
+    });
+});
+
+$('#folder-tool').find('.btn-default').on('click', function () {
+    newNote(curr_folder, function (note) {
+        location.href = `${serverurl}/` + note.id;
     });
 });
 

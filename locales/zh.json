@@ -103,9 +103,13 @@
 	"Select Visibility Level": "選擇可見層級",
 	"Folder": "資料夾",
 	"Root": "根目錄",
-	"Edit?": "移動 或 刪除?",
-	"Move": "移動",
-	"Delete": "刪除",
+	"Move folder": "移動資料夾",
+	"Delete folder": "刪除資料夾",
 	"Choose folder": "選擇資料夾",
-	"Confirm": "確定"
+	"Confirm": "確定",
+	"New folder": "新增資料夾",
+	"Move note": "移動筆記",
+	"Edit?": "Edit?",
+	"Move": "Move",
+	"Delete": "Delete"
 }

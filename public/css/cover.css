@@ -391,6 +391,16 @@ input {
     text-align: left;
 }
 
+#folder-tool {
+    position: absolute;
+    top: 1.5em;
+    right: 1.5em;
+}
+
+#folder-tool .btn-danger {
+    display: none;
+}
+
 @media (min-width: 768px) {
     #folder-container {
         text-align: left;
@@ -418,6 +428,11 @@ input {
     .note.tool:hover {
         display: block;
     }
+
+    #folder-list .btn-default {
+        position: absolute;
+        top: -3em;
+    }
 }
 
 @media (max-width: 768px) {
@@ -427,14 +442,18 @@ input {
     }
 
     #folder-title {
-        text-align: center;
+        text-align: left;
+        left: 2.5em;
+        line-height: 2em;
+        font-size: 1.5em;
+        position: relative;
     }
 
     #folder-container {
         text-align: left;
     }
 
-    #folder-tree {
+    #folder-list {
         display: none;
     }
 

@@ -129,8 +129,14 @@
                     <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
                         <h1 id="folder-button" data-toggle="modal" data-target="#folderModal"><i class="fa fa-folder-open" aria-hidden="true"></i></h1>
                         <h1 id="folder-title"></h1>
+                        <span id="folder-tool">
+                            <button class="btn btn-default"><i class="fa fa-plus"></i><%= __('New note') %></button>
+                            <button class="btn btn-success" data-toggle="modal" data-target="#moveFolderModal"><i class="fa fa-exchange"></i></button>
+                            <button class="btn btn-danger" data-toggle="modal" data-target="#deleteFolderModal"><i class="fa fa-close"></i></button>
+                        </span>
                     </div>
-                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                    <div id="folder-list" class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <button class="btn btn-default" data-toggle="modal" data-target="#newFolderModal"><i class="fa fa-plus"></i><%= __('New folder') %></button>
                         <div id="folder-tree" class="treeview">
                         </div>
                     </div>
@@ -246,6 +252,7 @@
                 <h4 class="modal-title" id="myModalLabel"><%= __('Choose folder') %></h4>
             </div>
             <div class="modal-body" style="color:black;">
+                <button class="btn btn-default" data-toggle="modal" data-target="#newFolderModal"><i class="fa fa-plus"></i><%= __('New folder') %></button>
                 <div id="modal-folder-tree" class="treeview">
                 </div>
             </div>

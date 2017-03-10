@@ -103,9 +103,10 @@
 	"Select Visibility Level": "Select Visibility Level",
 	"Folder": "Folder",
 	"Root": "Root",
-	"Edit?": "Move or delete?",
-	"Move": "Move",
-	"Delete": "Delete",
+	"Move folder": "Move folder",
+	"Delete folder": "Delete folder",
 	"Choose folder": "Choose the folder",
-	"Confirm": "Submit"
+	"Confirm": "Submit",
+	"New folder": "New folder",
+	"Move note": "Move note"
 }
