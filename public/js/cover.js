@@ -71,6 +71,8 @@ const options = {
 };
 const historyList = new List('history', options);
 
+var curr_folder;
+
 migrateHistoryFromTempCallback = pageInit;
 setloginStateChangeEvent(pageInit);
 
@@ -194,6 +196,7 @@ function parseHistoryCallback(list, notehistory) {
 }
 
 function getFoldersCallback(folders) {
+    curr_folder = "Aw0i0aa0W+iA";
     $('#folder-tree').treeview({
         color: "#000000",
         backColor: "#FFFFFF",
@@ -205,9 +208,11 @@ function getFoldersCallback(folders) {
         }],
         onNodeSelected: function (event, data) {
             if (data.id) {
+                curr_folder = data.id;
                 getNotes(data.id, getNotesCallback);
                 $('#folder-title').html(data.text);
             } else {
+                curr_folder = "Aw0i0aa0W+iA";
                 getNotes("Aw0i0aa0W+iA", getNotesCallback);
                 $('#folder-title').html(data.text);
             }
@@ -228,7 +233,7 @@ function getNotesCallback(notes) {
             note.tag.forEach(function (tag) {
                 tags += '<span class="note label label-default">' + tag + '</span>'
             });
-            $('#notes').append('<li class="list-group-item node-folder-tree" note-id="' + note.id + '" timestamp="' + note.time + '">' +
+            $('#notes').append('<li class="list-group-item node-folder-tree" data-note-id="' + note.id + '" timestamp="' + note.time + '">' +
                     '<span class="note detail">' +
                         '<span class="note icon"><i class="fa fa-file-text"></i></span>' +
                         '<span class="note title" style="font-size: 1.5em;">' + note.text + '</span>' +
@@ -242,35 +247,13 @@ function getNotesCallback(notes) {
                         '<i class="note lastTime">' + moment(note.time).format('ddd, MMM DD, YYYY h:mm a') + '</i>' +
                     '</span>' +
                     '<span class="note tool">' +
-                        '<button class="btn btn-warning" style="display: none;" data-toggle="modal" data-target="#editModal"><i class="fa fa-pencil-square-o"></i></button>' +
-                        '<button class="btn btn-success" style="display: none;" data-toggle="modal" data-target="#moveModal"><i class="fa fa-exchange"></i></button>' +                                    
-                        '<button class="btn btn-danger" style="display: none;" data-toggle="modal" data-target="#deleteNoteModal"><i class="fa fa-times"></i></button>' +
+                        '<button class="btn btn-success" data-toggle="modal" data-target="#moveModal" data-note-id="' + note.id + '" ><i class="fa fa-exchange"></i></button>' +                                    
                     '</span>' +
                 '</li>');
         });
         $('#notes').find('li .detail').on('click', function () {
-            location.href = `${serverurl}/` + $(this).parent().attr('note-id');
+            location.href = `${serverurl}/` + $(this).parent().attr('data-note-id');
         });
-        $('#notes').find('li .note.tool .btn-success').on('click', function () {
-            console.log($(this).parent().parent().attr('note-id'));
-        });
-        $('#notes').find('li .note.tool .btn-danger').on('click', function () {
-            console.log($(this).parent().parent().attr('note-id'));
-        });
-        if (window.matchMedia('(max-width: 768px)').matches) {
-            $('#notes').find('li .note.tool').show();
-            $('#notes').find('li .note.tool .btn-warning').show();
-        } else {
-            $('#notes').find('li').hover(function () {
-                $(this).find('.note.tool').show();
-                $(this).find('.note.tool .btn-success').show();
-                $(this).find('.note.tool .btn-danger').show();
-            }, function () {
-                $(this).find('.note.tool').hide();
-                $(this).find('.note.tool .btn-success').hide();
-                $(this).find('.note.tool .btn-danger').hide();
-            });
-        }
     } else {
         $('#notes').html("<h2>This folder is empty.</h2>");
     }
@@ -292,6 +275,7 @@ function modalGetFoldersCallback (folders) {
         }],
         onNodeSelected: function (event, data) {
             if (data.id) {
+                curr_folder = data.id;
                 getNotes(data.id, getNotesCallback);
                 $('#folder-title').html(data.text);
             } else {
@@ -302,6 +286,45 @@ function modalGetFoldersCallback (folders) {
         }
     });
 }
+
+$('#moveModal').on('show.bs.modal', function (event) {
+    var note_id = $(event.relatedTarget).attr('data-note-id');
+    $(this).find('.btn-success').attr('data-note-id', note_id);
+    getFolders(modalMoveFoldersCallback);
+    function modalMoveFoldersCallback (folders) {
+        $('#move-folder-tree').treeview({
+            color: "#000000",
+            backColor: "#FFFFFF",
+            expandIcon: 'fa fa-folder',
+            collapseIcon: 'fa fa-folder-open',
+            data: [{
+                text: root_folder_name,
+                nodes: folders
+            }],
+            onNodeSelected: function (event, data) {
+                if (data.id) {
+                    $('#moveModal').find('.btn-success').attr('data-folder-id', data.id);
+                } else {
+                    $('#moveModal').find('.btn-success').attr('data-folder-id', "Aw0i0aa0W+iA");
+                }
+            }
+        });
+    };
+});
+
+$('#moveModal').find('.btn-success').on('click', function () {
+    var note_id = $(this).attr('data-note-id');
+    var folder_id = $(this).attr('data-folder-id');
+    moveNote(note_id, folder_id, function (data) {
+        if (!data) {
+            console.log("Success!");
+        } else {
+            console.log("Failed");
+        }
+        $('#moveModal').modal('hide');
+        getNotes(curr_folder, getNotesCallback);
+    });
+});
 
 // update items whenever list updated
 historyList.on('updated', e => {

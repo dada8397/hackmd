@@ -385,7 +385,7 @@ input {
     margin-right: 0.5em;
 }
 
-#modal-folder-tree {
+#modal-folder-tree, #move-folder-tree {
     height: 60vh;
     overflow: auto;
     text-align: left;
@@ -409,6 +409,14 @@ input {
 
     #folder-button {
         display: none;
+    }
+
+    .note.detail:hover + .note.tool {
+        display: block;
+    }
+
+    .note.tool:hover {
+        display: block;
     }
 }
 
@@ -437,6 +445,10 @@ input {
 
     #folder-button {
         position: absolute;
+    }
+
+    .note.tool {
+        display: block;
     }
 }
 
