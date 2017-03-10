@@ -111,5 +111,7 @@
 	"Move note": "移動筆記",
 	"Edit?": "Edit?",
 	"Move": "Move",
-	"Delete": "Delete"
+	"Delete": "Delete",
+	"Rename folder": "重新命名資料夾",
+	"New name...": "請輸入新資料夾名"
 }

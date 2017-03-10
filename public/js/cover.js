@@ -199,11 +199,17 @@ function parseHistoryCallback(list, notehistory) {
 
 function getFoldersCallback(folders) {
     curr_folder = "Aw0i0aa0W+iA";
+    folders.sort(function (a, b) {
+        if (a.text > b.text) return 1;
+        if (a.text < b.text) return -1;
+        return 0;
+    });
     $('#folder-tree').treeview({
         color: "#000000",
         backColor: "#FFFFFF",
-        expandIcon: 'fa fa-folder',
-        collapseIcon: 'fa fa-folder-open',
+        nodeIcon: "fa fa-folder",
+        expandIcon: 'fa fa-chevron-right',
+        collapseIcon: 'fa fa-chevron-down',
         data: [{
             text: root_folder_name,
             nodes: folders
@@ -212,12 +218,14 @@ function getFoldersCallback(folders) {
             if (data.id) {
                 curr_folder = data.id;
                 getNotes(data.id, getNotesCallback);
-                $('#folder-title').html(data.text);
+                $('#folder-title').html(data.text + ' <i class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="modal" data-target="#renameFolderModal"></i>');
+                $('#folder-tool').find('.btn-success').show();
                 $('#folder-tool').find('.btn-danger').show();
             } else {
                 curr_folder = "Aw0i0aa0W+iA";
                 getNotes("Aw0i0aa0W+iA", getNotesCallback);
                 $('#folder-title').html(data.text);
+                $('#folder-tool').find('.btn-success').hide();
                 $('#folder-tool').find('.btn-danger').hide();
             }
         }
@@ -268,11 +276,17 @@ $('#folderModal').on('show.bs.modal', function (event) {
 });
 
 function modalGetFoldersCallback (folders) {
+    folders.sort(function (a, b) {
+        if (a.text > b.text) return 1;
+        if (a.text < b.text) return -1;
+        return 0;
+    });
     $('#modal-folder-tree').treeview({
         color: "#000000",
         backColor: "#FFFFFF",
-        expandIcon: 'fa fa-folder',
-        collapseIcon: 'fa fa-folder-open',
+        nodeIcon: "fa fa-folder",
+        expandIcon: 'fa fa-chevron-right',
+        collapseIcon: 'fa fa-chevron-down',
         data: [{
             text: root_folder_name,
             nodes: folders
@@ -281,11 +295,13 @@ function modalGetFoldersCallback (folders) {
             if (data.id) {
                 curr_folder = data.id;
                 getNotes(data.id, getNotesCallback);
-                $('#folder-title').html(data.text);
+                $('#folder-title').html(data.text + ' <i class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="modal" data-target="#renameFolderModal"></i>');
+                $('#folder-tool').find('.btn-success').show();
                 $('#folder-tool').find('.btn-danger').show();
             } else {
                 getNotes("Aw0i0aa0W+iA", getNotesCallback);
                 $('#folder-title').html(data.text);
+                $('#folder-tool').find('.btn-success').hide();
                 $('#folder-tool').find('.btn-danger').hide();
             }
             $('#folderModal').modal('hide');
@@ -301,8 +317,9 @@ $('#moveModal').on('show.bs.modal', function (event) {
         $('#move-folder-tree').treeview({
             color: "#000000",
             backColor: "#FFFFFF",
-            expandIcon: 'fa fa-folder',
-            collapseIcon: 'fa fa-folder-open',
+            nodeIcon: "fa fa-folder",
+            expandIcon: 'fa fa-chevron-right',
+            collapseIcon: 'fa fa-chevron-down',
             data: [{
                 text: root_folder_name,
                 nodes: folders
@@ -318,7 +335,7 @@ $('#moveModal').on('show.bs.modal', function (event) {
     };
 });
 
-$('#moveModal').find('.btn-success').one('click', function () {
+$('#moveModal').find('.btn-success').on('click', function () {
     var note_id = $(this).attr('data-note-id');
     var folder_id = $(this).attr('data-folder-id');
     moveNote(note_id, folder_id, function (data) {
@@ -335,6 +352,28 @@ $('#moveModal').find('.btn-success').one('click', function () {
 $('#folder-tool').find('.btn-default').on('click', function () {
     newNote(curr_folder, function (note) {
         location.href = `${serverurl}/` + note.id;
+    });
+});
+
+$('#renameFolderModal').on('show.bs.modal', function () {
+    $('#new-folder-name').val($('#folder-title').html()
+        .replace(' <i class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="modal" data-target="#renameFolderModal"></i>', ''));
+});
+
+$('#renameFolderModal').find('.btn-success').on('click', function () {
+    var folder_id = curr_folder;
+    var new_name = $('#new-folder-name').val();
+    $('#new-folder-name').val('');
+    renameFolder(folder_id, new_name, function (data) {
+        if (!data) {
+            console.log("Success!");
+        } else {
+            console.log("Failed");
+        }
+        getFolders(getFoldersCallback);
+        $('#renameFolderModal').modal('hide');
+        $('#folder-title').html(new_name + ' <i class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="modal" data-target="#renameFolderModal"></i>');
+        getNotes(curr_folder, getNotesCallback);
     });
 });
 

@@ -469,6 +469,10 @@ input {
     .note.tool {
         display: block;
     }
+
+    .btn-default span {
+        display: none;
+    }
 }
 
 select {

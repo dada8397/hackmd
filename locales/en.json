@@ -108,5 +108,7 @@
 	"Choose folder": "Choose the folder",
 	"Confirm": "Submit",
 	"New folder": "New folder",
-	"Move note": "Move note"
+	"Move note": "Move note",
+	"Rename folder": "Rename folder",
+	"New name...": "Enter the new name"
 }
