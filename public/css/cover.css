@@ -503,6 +503,11 @@ select {
         position: absolute;
         top: -3em;
     }
+
+    #notes {
+        height: 60vh;
+        overflow: auto;
+    }
 }
 
 @media (max-width: 768px) {
